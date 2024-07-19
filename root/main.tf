@@ -126,3 +126,26 @@ module "asg" {
   scale_down_alarm_threshold           = var.scale_down_alarm_threshold
   user_updates_arn                     = module.sns.user_updates_arn
 }
+
+module "rds" {
+  source                                = "../modules/rds"
+  project_name                          = local.project_name
+  environment                           = local.environment
+  private_data_subnet_az1_id            = module.vpc.private_data_subnet_az1_id
+  private_data_subnet_az2_id            = module.vpc.private_data_subnet_az2_id
+  database_instance_engine              = var.database_instance_engine
+  database_instance_engine_version      = var.database_instance_engine_version
+  database_instance_multi_az            = var.database_instance_multi_az
+  database_instance_identifier          = var.database_instance_identifier
+  database_instance_username            = var.database_instance_username
+  database_instance_password            = var.database_instance_password
+  database_instance_instance_class      = var.database_instance_instance_class
+  database_instance_az                  = var.database_instance_az
+  database_instance_db_name             = var.database_instance_db_name
+  database_instance_skip_final_snapshot = var.database_instance_skip_final_snapshot
+  database_security_group_id            = module.sg.database_security_group_id
+  database_instance_allocated_storage   = var.database_instance_allocated_storage
+  database_instance_publicly_accessible = var.database_instance_publicly_accessible
+  database_instance_storage_encrypted   = var.database_instance_storage_encrypted
+  depends_on                            = [module.vpc]
+}

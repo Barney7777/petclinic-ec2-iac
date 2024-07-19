@@ -62,3 +62,18 @@ variable "scale_down_alarm_namespace" {}
 variable "scale_down_alarm_period" {}
 variable "scale_down_alarm_statistic" {}
 variable "scale_down_alarm_threshold" {}
+
+# rds variable
+variable "database_instance_engine" {}
+variable "database_instance_engine_version" {}
+variable "database_instance_multi_az" {}
+variable "database_instance_identifier" {}
+variable "database_instance_username" {}
+variable "database_instance_password" {}
+variable "database_instance_instance_class" {}
+variable "database_instance_az" {}
+variable "database_instance_db_name" {}
+variable "database_instance_skip_final_snapshot" {}
+variable "database_instance_allocated_storage" {}
+variable "database_instance_publicly_accessible" {}
+variable "database_instance_storage_encrypted" {}
