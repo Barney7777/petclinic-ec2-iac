@@ -28,6 +28,26 @@ module "nat-gateway" {
   private_app_subnet_az1_id = module.vpc.private_app_subnet_az1_id
   private_app_subnet_az2_id = module.vpc.private_app_subnet_az2_id
   igw_id                    = module.vpc.igw_id
+}
 
+module "sg" {
+  source       = "../modules/sg"
+  project_name = local.project_name
+  environment  = local.environment
+  vpc_id       = module.vpc.vpc_id
+}
+
+module "iam" {
+  source       = "../modules/iam"
+  project_name = local.project_name
+  environment  = local.environment
+}
+
+module "ec2" {
+    source = "../modules/ec2"
+    region = local.region
+    vpc_id       = module.vpc.vpc_id
+    ec2_security_group_id = module.sg.ec2_security_group_id
+  
 }
 
