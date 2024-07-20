@@ -27,7 +27,7 @@ resource "aws_launch_template" "app_launch_template" {
   iam_instance_profile {
     name = var.ec2_instance_profile_name
   }
-  #   user_data              = base64encode(templatefile("userdata.sh", { mysql_url = aws_db_instance.database_instance.endpoint }))
+  user_data              = base64encode(templatefile("run_docker.sh", {}))
   vpc_security_group_ids = [var.alb_security_group_id]
   lifecycle {
     create_before_destroy = true

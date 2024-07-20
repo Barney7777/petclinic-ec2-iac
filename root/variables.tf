@@ -68,8 +68,8 @@ variable "database_instance_engine" {}
 variable "database_instance_engine_version" {}
 variable "database_instance_multi_az" {}
 variable "database_instance_identifier" {}
-variable "database_instance_username" {}
-variable "database_instance_password" {}
+# variable "database_instance_username" {}
+# variable "database_instance_password" {}
 variable "database_instance_instance_class" {}
 variable "database_instance_az" {}
 variable "database_instance_db_name" {}

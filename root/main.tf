@@ -1,7 +1,16 @@
+# Retrieve the secret
+data "aws_secretsmanager_secret" "db_credentials" {
+  name = "mydatabase/credentials"
+}
+data "aws_secretsmanager_secret_version" "db_credentials" {
+  secret_id = data.aws_secretsmanager_secret.db_credentials.id
+}
+
 locals {
-  project_name = var.project_name
-  environment  = var.environment
-  region       = var.region
+  project_name   = var.project_name
+  environment    = var.environment
+  region         = var.region
+  db_credentials = jsondecode(data.aws_secretsmanager_secret_version.db_credentials.secret_string)
 }
 
 module "vpc" {
@@ -137,8 +146,8 @@ module "rds" {
   database_instance_engine_version      = var.database_instance_engine_version
   database_instance_multi_az            = var.database_instance_multi_az
   database_instance_identifier          = var.database_instance_identifier
-  database_instance_username            = var.database_instance_username
-  database_instance_password            = var.database_instance_password
+  database_instance_username            = local.db_credentials.username
+  database_instance_password            = local.db_credentials.password
   database_instance_instance_class      = var.database_instance_instance_class
   database_instance_az                  = var.database_instance_az
   database_instance_db_name             = var.database_instance_db_name
@@ -148,4 +157,15 @@ module "rds" {
   database_instance_publicly_accessible = var.database_instance_publicly_accessible
   database_instance_storage_encrypted   = var.database_instance_storage_encrypted
   depends_on                            = [module.vpc]
+}
+
+resource "null_resource" "update_secret_with_rds_endpoint" {
+  provisioner "local-exec" {
+    command = <<EOT
+      aws secretsmanager update-secret --secret-id ${data.aws_secretsmanager_secret.db_credentials.id} \
+      --secret-string '{"username":"${local.db_credentials.username}","password":"${local.db_credentials.password}","MYSQL_URL":"${module.rds.rds_endpoint}"}'
+    EOT
+  }
+
+  depends_on = [module.rds]
 }
