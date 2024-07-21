@@ -1,0 +1,13 @@
+**/.terraform/*
+.terraform
+*.hcl
+*.lock*
+../.terraform/*
+terraform.*
+# *.tfvars*
+prod.tfvars
+
+# .tfstate files
+*.tfstate
+/**/*.tfstate*
+*.tfstate.*
