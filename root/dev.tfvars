@@ -27,7 +27,7 @@ alb_https_listener_ssl_policy = "ELBSecurityPolicy-2016-08"
 alb_https_listener_type       = "forward"
 
 # sns topic variables
-operator_email = "wangyaxu7@gmail.com"
+operator_email = "example@gmail.com"
 
 # asg variables
 app_launch_template_instance_type    = "t2.micro"
