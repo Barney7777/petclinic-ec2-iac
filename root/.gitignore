@@ -4,7 +4,8 @@
 *.lock*
 ../.terraform/*
 terraform.*
-*.tfvars*
+# *.tfvars*
+
 
 # .tfstate files
 *.tfstate
